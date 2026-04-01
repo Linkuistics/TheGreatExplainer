@@ -27,6 +27,7 @@ TheGreatExplainer solves this by combining documentation generation with instruc
 - Step-by-step tutorials from working sample applications
 - Per-paradigm adaptation: the same concept explained through each language's lens
 - Progressive complexity -- prerequisites before dependents, concepts before details
+- Complete, runnable code at each step
 
 ### Execution Validation
 
@@ -40,28 +41,30 @@ TheGreatExplainer solves this by combining documentation generation with instruc
 - Prerequisite ordering verification -- no concept used before it's introduced
 - Circular dependency detection in explanation structure
 - Knowledge gap analysis -- identifies missing explanations
+- Progressive complexity verification -- simple to complex ordering
 
 ### User Knowledge Modelling
 
 - Track what the reader is assumed to know at each point
 - Adapt explanation depth based on the reader's profile
-- Integration with [TestSubject](https://github.com/linkuistics/TestSubject) for modelling specific learner profiles
+- Integration with [TestSubject](https://github.com/linkuistics/TestSubject) for modelling specific learner profiles (runtime integration)
 
 ## Multi-Stage Pipeline
 
 ```
-Generate -> Validate -> Review -> Refine -> Re-validate -> Publish
+Generate -> Validate (execution) -> Review (structure) -> Refine -> Re-validate -> Publish
 ```
 
-Documentation passes through multiple stages. Execution validation catches technical errors. Instructional design validation catches pedagogical errors. The pipeline iterates until both are satisfied.
+Documentation passes through multiple stages. Execution validation catches technical errors. Instructional design validation catches pedagogical errors. The pipeline iterates until both are satisfied. Designed to be LLM-driven with human review gates.
 
 ## First Customer: APIAnyware-MacOS
 
-APIAnyware generates idiomatic bindings for 11+ languages across multiple paradigms. This provides a demanding set of requirements:
+APIAnyware generates idiomatic bindings for 11 languages across multiple paradigms. This provides a demanding set of requirements:
 
-- **Inputs:** Enriched IR (JSON), generated bindings, sample apps, binding style metadata, Apple documentation URLs
-- **Outputs:** API reference (Markdown/HTML), tutorials (Markdown/HTML), validation reports
-- **Per-language configuration:** Each language has its own idioms, assumed knowledge, and key concepts
+- **Inputs:** Enriched IR (JSON), generated bindings, sample app source, binding style metadata, app specifications, Apple documentation URLs
+- **Outputs:** API reference (Markdown/HTML), tutorials (Markdown/HTML), validation reports (JSON/Markdown)
+- **Per-language configuration:** Each language provides a documentation requirements file specifying idioms, paradigm style, assumed reader knowledge, key concepts, and what's unusual about the bindings
+- **Sample apps:** 8 standard sample apps (Hello Window, Counter, UI Controls Gallery, File Lister, Text Editor, Mini Browser, Menu Bar Tool, per-framework exercisers) across 11 languages and multiple paradigms
 
 The same conceptual tutorial (e.g., "build a window with a button") is generated differently for each paradigm:
 - **OO (Racket, Smalltalk):** Create instance, set properties, add to view hierarchy
@@ -78,6 +81,7 @@ The same conceptual tutorial (e.g., "build a window with a button") is generated
 - A static site generator (it generates content; rendering is separate)
 - A documentation linter (it generates documentation, not just checks existing docs)
 - Scoped to APIAnyware (it is a general-purpose product)
+- An interactive tutorial runtime (initial output is static documentation)
 
 ## Related Projects
 
@@ -88,4 +92,4 @@ The same conceptual tutorial (e.g., "build a window with a button") is generated
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+Apache-2.0. Copyright 2026 Linkuistics. See [LICENSE](LICENSE).

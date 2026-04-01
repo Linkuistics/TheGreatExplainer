@@ -4,18 +4,7 @@ Next steps as Claude Code prompts, in recommended order.
 
 ---
 
-## 1. Define the data model for structured inputs
-
-```
-Read docs/requirements.md sections 2.1 and 2.3. Design TypeScript (or Rust, depending on
-implementation language decision) types/structs for the core data model: EnrichedIR,
-BindingStyleMetadata, AppSpecification, LanguageConfig, and LearnerProfile. Write these to
-src/models/ with tests. The data model must support the full integration contract described in
-the requirements (enriched IR JSON, per-language config, app specs). Start with the input side
-only -- output types come later.
-```
-
-## 2. Choose implementation language and set up project scaffolding
+## 1. Choose implementation language and set up project scaffolding
 
 ```
 TheGreatExplainer is a documentation generation pipeline. Evaluate whether this should be
@@ -24,6 +13,17 @@ typing, performance for validation), or Python (LLM integration, text processing
 that it needs to: parse JSON IR, generate Markdown/HTML, run code snippets in containers,
 integrate with TestSubject at runtime, and orchestrate an LLM-driven review pipeline. Set up
 the chosen project structure with build tooling, linting, and a basic test harness.
+```
+
+## 2. Define the data model for structured inputs
+
+```
+Read docs/requirements.md sections 2.1 and 2.3. Design types/structs (in the chosen
+implementation language) for the core data model: EnrichedIR, BindingStyleMetadata,
+AppSpecification, LanguageConfig, and LearnerProfile. Write these to src/models/ with tests.
+The data model must support the full integration contract described in the requirements
+(enriched IR JSON, per-language config, app specs). Start with the input side only -- output
+types come later.
 ```
 
 ## 3. Implement the documentation generator (core pipeline stage 1)
@@ -73,8 +73,9 @@ capture output, compare against expected output, and produce a validation report
 Read docs/requirements.md section 1.5. Implement the instructional design validator that
 checks pedagogical structure: prerequisite ordering (no concept used before introduced),
 circular dependency detection in explanations, knowledge gap analysis (missing explanations),
-and progressive complexity verification. The validator takes a tutorial and a LearnerProfile
-(from TestSubject) and produces a structural review report.
+progressive complexity verification, and per-section learning objective verification. The
+validator takes a tutorial and a LearnerProfile (from TestSubject) and produces a structural
+review report.
 ```
 
 ## 8. Integrate TestSubject for user knowledge modelling
@@ -105,4 +106,15 @@ against real APIAnyware-MacOS data: enriched IR for one framework, generated bin
 language, one sample app. Verify: API reference docs generated, tutorial generated, execution
 validation passes, instructional design validation passes, cross-references to Apple docs are
 correct. Fix any integration issues discovered.
+```
+
+## 11. Define output data model and rendering interface
+
+```
+Read docs/requirements.md section 2.2. Design the output data model: structured
+representations for API reference pages, tutorial pages, and validation reports. Define a
+clear rendering interface so that downstream consumers (static site generators, PDF renderers,
+etc.) can produce final output from TheGreatExplainer's structured data. TheGreatExplainer
+generates content, not presentation -- the output model must encode enough structure for any
+renderer. Write types to src/models/ alongside input types, with tests.
 ```
